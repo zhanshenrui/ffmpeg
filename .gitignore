@@ -4,3 +4,9 @@ myexample/*/ffmpeg/
 myexample/*/*.pro
 myexample/*/*.user
 myexample/*/说明*
+myexample/*/*/build*/
+myexample/*/*/ffmpeg/
+myexample/*/*/*.pro
+myexample/*/*/*.user
+myexample/*/*/说明*
+
