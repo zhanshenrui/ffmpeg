@@ -1,8 +1,8 @@
 ﻿//Windows下使用FFMPEG解码视频并保存成图片文件的简单的例子
 /**
- * 叶海辉
- * QQ群121376426
- * http://blog.yundiantech.com/
+ * 
+ * QQ:398031055
+ * 
  */
 
 extern "C"
