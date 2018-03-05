@@ -1,3 +1,0 @@
----- SaveFrame Matches (2 in 1 files) ----
-main.cpp (democode) line 20 : void SaveFrame(AVFrame *pFrame, int width, int height,int index)
-main in main.cpp (democode) line 161 :                 SaveFrame(pFrameRGB, pCodecCtx->width,pCodecCtx->height,index++); //保存图片
