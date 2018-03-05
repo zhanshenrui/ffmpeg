@@ -1,0 +1,118 @@
+---- av_new_packet Matches (117 in 88 files) ----
+fourxm_read_packet in 4xm.c (libavformat) line 315 :             if (size + 8 < size || av_new_packet(pkt, size + 8))
+read_packet in act.c (libavformat) line 120 :         ret=av_new_packet(pkt, 10);
+read_packet in act.c (libavformat) line 122 :         ret=av_new_packet(pkt, 11);
+audio_read_packet in alsa-audio-dec.c (libavdevice) line 104 :     if (av_new_packet(pkt, s->period_size * s->frame_size) < 0) {
+amr_read_packet in amr.c (libavformat) line 142 :     if (!size || av_new_packet(pkt, size))
+ape_read_packet in ape.c (libavformat) line 414 :     if (av_new_packet(pkt,  ape->frames[ape->currentframe].size + extra_size) < 0)
+asf_parse_packet in asfdec.c (libavformat) line 1208 :             if ((ret = av_new_packet(&asf_st->pkt, asf_st->packet_obj_size)) < 0)
+interleave_new_audio_packet in audiointerleave.c (libavformat) line 88 :     ret = av_new_packet(pkt, size);
+avcodec.h (libavcodec) line 3719 : int av_new_packet(AVPacket *pkt, int size);
+avf_read_packet in avfoundation.m (libavdevice) line 727 :             if (av_new_packet(pkt, (int)CVPixelBufferGetDataSize(image_buffer)) < 0) {
+avf_read_packet in avfoundation.m (libavdevice) line 757 :             if (av_new_packet(pkt, block_buffer_size) < 0) {
+avisynth_read_packet_video in avisynth.c (libavformat) line 460 :     if (av_new_packet(pkt, pkt->size) < 0)
+avisynth_read_packet_audio in avisynth.c (libavformat) line 559 :     if (av_new_packet(pkt, pkt->size) < 0)
+avpacket.c (libavcodec) line 83 : int av_new_packet(AVPacket *pkt, int size)
+av_grow_packet in avpacket.c (libavcodec) line 116 :         return av_new_packet(pkt, grow_by);
+avs_read_video_packet in avs.c (libavformat) line 93 :     ret = av_new_packet(pkt, size + palette_size);
+read_frame in bethsoftvid.c (libavformat) line 180 :     if ((ret = av_new_packet(pkt, vidbuf_nbytes)) < 0)
+read_packet in bit.c (libavformat) line 93 :     if (av_new_packet(pkt, packet_size) < 0)
+grab_read_packet in bktr.c (libavdevice) line 235 :     if (av_new_packet(pkt, video_buf_size) < 0)
+bmv_read_packet in bmv.c (libavformat) line 99 :             if (av_new_packet(pkt, audio_size) < 0)
+bmv_read_packet in bmv.c (libavformat) line 111 :     if (av_new_packet(pkt, c->size + 1) < 0)
+read_packet in brstm.c (libavformat) line 263 :         if (av_new_packet(pkt, 8 + (32 + 4) * codec->channels + size) < 0)
+read_packet in c93.c (libavformat) line 153 :     ret = av_new_packet(pkt, datasize + 768 + 1);
+cdxl_read_packet in cdxl.c (libavformat) line 186 :         if (av_new_packet(pkt, video_size + CDXL_HEADER_SIZE) < 0)
+callback in dshow.c (libavdevice) line 217 :     if(av_new_packet(&pktl_next->pkt, buf_size) < 0) {
+cin_read_packet in dsicin.c (libavformat) line 189 :         ret = av_new_packet(pkt, 4 + pkt_size);
+dxa_read_packet in dxa.c (libavformat) line 180 :             if(av_new_packet(pkt, 4 + pal_size) < 0)
+dxa_read_packet in dxa.c (libavformat) line 205 :             if(av_new_packet(pkt, size + DXA_EXTRA_SIZE + pal_size) < 0)
+fbdev_read_packet in fbdev_dec.c (libavdevice) line 180 :     if ((ret = av_new_packet(pkt, fbdev->frame_size)) < 0)
+ffm_read_packet in ffmdec.c (libavformat) line 609 :         if (av_new_packet(pkt, size) < 0) {
+flic_read_packet in flic.c (libavformat) line 219 :             if (av_new_packet(pkt, size)) {
+flic_read_packet in flic.c (libavformat) line 235 :             if (av_new_packet(pkt, size)) {
+g723_1_read_packet in g723_1.c (libavformat) line 62 :     ret = av_new_packet(pkt, size);
+gdigrab_read_packet in gdigrab.c (libavdevice) line 543 :     if (av_new_packet(pkt, file_size) < 0)
+read_packet in icodec.c (libavformat) line 139 :         if ((ret = av_new_packet(pkt, 14 + image->size)) < 0)
+roq_read_packet in idroqdec.c (libavformat) line 205 :             if (av_new_packet(pkt, chunk_size + RoQ_CHUNK_PREAMBLE_SIZE))
+iff_read_packet in iff.c (libavformat) line 729 :         if (av_new_packet(pkt, iff->body_size + 2) < 0) {
+ilbc_read_packet in ilbc.c (libavformat) line 108 :     if ((ret = av_new_packet(pkt, enc->block_align)) < 0)
+ff_img_read_packet in img2dec.c (libavformat) line 439 :     res = av_new_packet(pkt, size[0] + size[1] + size[2]);
+load_ipmovie_packet in ipmovie.c (libavformat) line 159 :         if (av_new_packet(pkt, s->decode_map_chunk_size + s->video_chunk_size))
+supply_new_packets in jack_audio.c (libavdevice) line 141 :         if ((test = av_new_packet(&pkt, pkt_size)) < 0) {
+read_packet in jvdec.c (libavformat) line 189 :                 if (av_new_packet(pkt, size + JV_PREAMBLE_SIZE))
+lavfi_read_packet in lavfi.c (libavdevice) line 361 :         if ((ret = av_new_packet(pkt, size)) < 0)
+lavfi_read_packet in lavfi.c (libavdevice) line 372 :         if ((ret = av_new_packet(pkt, size)) < 0)
+read_packet in libcdio.c (libavdevice) line 139 :     if ((ret = av_new_packet(pkt, CDIO_CD_FRAMESIZE_RAW)) < 0)
+read_packet_gme in libgme.c (libavformat) line 146 :     if ((ret = av_new_packet(pkt, AUDIO_PKT_SIZE)) < 0)
+modplug_read_packet in libmodplug.c (libavformat) line 287 :             if (av_new_packet(pkt, modplug->fsize) < 0)
+modplug_read_packet in libmodplug.c (libavformat) line 320 :     if (av_new_packet(pkt, AUDIO_PKT_SIZE) < 0)
+nut_read_packet in libnut.c (libavformat) line 280 :     if (ret || av_new_packet(pkt, pd.len) < 0) {
+lxf_read_packet in lxfdec.c (libavformat) line 316 :     if ((ret2 = av_new_packet(pkt, ret)) < 0)
+main in main.cpp (democode) line 129 :     av_new_packet(packet, y_size); //分配packet的数据
+matroska_parse_rm_audio in matroskadec.c (libavformat) line 2342 :         ret = av_new_packet(pkt, a);
+matroska_parse_webvtt in matroskadec.c (libavformat) line 2507 :     err = av_new_packet(pkt, text_len);
+matroska_parse_frame in matroskadec.c (libavformat) line 2593 :     if (av_new_packet(pkt, pkt_size + offset) < 0) {
+read_packet in mm.c (libavformat) line 164 :             if (av_new_packet(pkt, length + MM_PREAMBLE_SIZE))
+mpc_read_packet in mpc.c (libavformat) line 155 :     if ((ret = av_new_packet(pkt, size + 4)) < 0)
+mpegts_raw_read_packet in mpegts.c (libavformat) line 2556 :     if (av_new_packet(pkt, TS_PACKET_SIZE) < 0)
+decode_frame in nutdec.c (libavformat) line 1022 :     ret = av_new_packet(pkt, size + nut->header_len[header_idx]);
+nuv_packet in nuv.c (libavformat) line 262 :             ret = av_new_packet(pkt, copyhdrsize + size);
+ogg_read_packet in oggdec.c (libavformat) line 783 :     ret = av_new_packet(pkt, psize);
+read_packet in openal-dec.c (libavdevice) line 195 :     av_new_packet(pkt, nb_samples*ad->sample_step);
+audio_read_packet in oss_audio_dec.c (libavdevice) line 82 :     if ((ret=av_new_packet(pkt, s->frame_size)) < 0)
+read_packet in paf.c (libavformat) line 206 :         if (av_new_packet(pkt, p->audio_size) < 0)
+read_packet in paf.c (libavformat) line 247 :     if (av_new_packet(pkt, size) < 0)
+str_read_packet in psxstr.c (libavformat) line 222 :                     if (av_new_packet(pkt, sector_count*VIDEO_DATA_CHUNK_SIZE))
+str_read_packet in psxstr.c (libavformat) line 281 :             if (av_new_packet(pkt, 2304))
+pulse_read_packet in pulse_audio_dec.c (libavdevice) line 296 :     if (av_new_packet(pkt, read_length) < 0) {
+qtkit_read_packet in qtkit.m (libavdevice) line 296 :             if (av_new_packet(pkt, (int)CVPixelBufferGetDataSize(ctx->current_frame)) < 0) {
+ff_raw_read_partial_packet in rawdec.c (libavformat) line 41 :     if (av_new_packet(pkt, size) < 0)
+rm_read_audio_stream_info in rmdec.c (libavformat) line 292 :             if (av_new_packet(&ast->pkt, ast->audio_framesize * sub_packet_h) < 0)
+rm_assemble_video_frame in rmdec.c (libavformat) line 720 :         if(av_new_packet(pkt, len + 9) < 0)
+rm_assemble_video_frame in rmdec.c (libavformat) line 743 :         if(av_new_packet(&vst->pkt, vst->videobufsize) < 0)
+ff_rm_retrieve_cache in rmdec.c (libavformat) line 924 :         int ret = av_new_packet(pkt, st->codec->block_align);
+rtp_parse_packet_internal in rtpdec.c (libavformat) line 651 :         if ((rv = av_new_packet(pkt, len)) < 0)
+amr_handle_packet in rtpdec_amr.c (libavformat) line 103 :     if (av_new_packet(pkt, len - 1)) {
+ff_h263_handle_packet in rtpdec_h263.c (libavformat) line 85 :     if (av_new_packet(pkt, len + startcode)) {
+h264_handle_packet in rtpdec_h264.c (libavformat) line 194 :         if ((result = av_new_packet(pkt, len + sizeof(start_sequence))) < 0)
+h264_handle_packet in rtpdec_h264.c (libavformat) line 252 :                     if ((result = av_new_packet(pkt, total_length)) < 0)
+h264_handle_packet in rtpdec_h264.c (libavformat) line 298 :                 if ((result = av_new_packet(pkt, sizeof(start_sequence) + sizeof(nal) + len)) < 0)
+h264_handle_packet in rtpdec_h264.c (libavformat) line 304 :                 if ((result = av_new_packet(pkt, len)) < 0)
+hevc_handle_packet in rtpdec_hevc.c (libavformat) line 350 :         if ((res = av_new_packet(pkt, sizeof(start_sequence) + len)) < 0)
+hevc_handle_packet in rtpdec_hevc.c (libavformat) line 401 :                     if ((res = av_new_packet(pkt, sizeof(start_sequence) + sizeof(new_nal_header) + len)) < 0)
+hevc_handle_packet in rtpdec_hevc.c (libavformat) line 415 :                 if ((res = av_new_packet(pkt, len)) < 0)
+latm_parse_packet in rtpdec_latm.c (libavformat) line 98 :     if ((ret = av_new_packet(pkt, cur_len)) < 0)
+mpeg_parse_packet in rtpdec_mpeg12.c (libavformat) line 52 :     if (av_new_packet(pkt, len) < 0)
+aac_parse_packet in rtpdec_mpeg4.c (libavformat) line 176 :         if ((ret = av_new_packet(pkt, data->au_headers[data->cur_au_index].size)) < 0)
+aac_parse_packet in rtpdec_mpeg4.c (libavformat) line 193 :     if ((ret = av_new_packet(pkt, data->au_headers[0].size)) < 0)
+store_packet in rtpdec_qcelp.c (libavformat) line 138 :     if ((ret = av_new_packet(pkt, frame_size)) < 0)
+return_stored_frame in rtpdec_qcelp.c (libavformat) line 178 :         if ((ret = av_new_packet(pkt, 1)) < 0)
+return_stored_frame in rtpdec_qcelp.c (libavformat) line 190 :         if ((ret = av_new_packet(pkt, frame_size)) < 0)
+qdm2_restore_block in rtpdec_qdm2.c (libavformat) line 198 :     if ((res = av_new_packet(pkt, qdm->block_size)) < 0)
+qt_rtp_parse_packet in rtpdec_qt.c (libavformat) line 55 :         if (av_new_packet(pkt, qt->bytes_per_frame))
+qt_rtp_parse_packet in rtpdec_qt.c (libavformat) line 211 :         if (av_new_packet(pkt, qt->bytes_per_frame))
+xiph_handle_packet in rtpdec_xiph.c (libavformat) line 104 :         if (av_new_packet(pkt, pkt_len)) {
+xiph_handle_packet in rtpdec_xiph.c (libavformat) line 151 :         if (av_new_packet(pkt, pkt_len)) {
+sbg_read_packet in sbgdec.c (libavformat) line 1455 :     if (av_new_packet(packet, 12) < 0)
+sdr2_read_packet in sdr2.c (libavformat) line 93 :         if (av_new_packet(pkt, next - 52 + 24) < 0)
+vmd_read_packet in sierravmd.c (libavformat) line 280 :     if (av_new_packet(pkt, frame->frame_size + BYTES_PER_FRAME_RECORD))
+siff_read_packet in siff.c (libavformat) line 214 :             if (av_new_packet(pkt, size + c->gmcsize + 2) < 0)
+smacker_read_packet in smacker.c (libavformat) line 345 :         if (av_new_packet(pkt, frame_size + 769))
+smacker_read_packet in smacker.c (libavformat) line 362 :         if (av_new_packet(pkt, smk->buf_sizes[smk->curstream]))
+audio_read_packet in sndio_dec.c (libavdevice) line 63 :     if ((ret = av_new_packet(pkt, s->buffer_size)) < 0)
+ff_spdif_read_packet in spdifdec.c (libavformat) line 189 :     ret = av_new_packet(pkt, FFALIGN(pkt_size_bits, 16) >> 3);
+ff_subtitles_queue_insert in subtitles.c (libavformat) line 136 :         if (av_new_packet(sub, len) < 0)
+swf_read_packet in swfdec.c (libavformat) line 358 :             if ((res = av_new_packet(pkt, out_len - colormapsize * colormapbpp)) < 0)
+swf_read_packet in swfdec.c (libavformat) line 458 :             if ((res = av_new_packet(pkt, len)) < 0)
+seq_read_packet in tiertexseq.c (libavformat) line 257 :             if (av_new_packet(pkt, 1 + seq->current_pal_data_size + seq->current_video_data_size))
+ff_alloc_packet2 in utils.c (libavcodec) line 1757 :         int ret = av_new_packet(avpkt, size);
+recode_subtitle in utils.c (libavcodec) line 2639 :     ret = av_new_packet(&tmp, inl * UTF8_MAX_BYTES);
+grab_read_packet in v4l.c (libavdevice) line 307 :     if (av_new_packet(pkt, s->frame_size) < 0)
+mmap_read_frame in v4l2.c (libavdevice) line 539 :         res = av_new_packet(pkt, buf.bytesused);
+videostream_cb in vfwcap.c (libavdevice) line 190 :     if(av_new_packet(&pktl_next->pkt, vdhdr->dwBytesUsed) < 0) {
+vqf_read_packet in vqf.c (libavformat) line 237 :     if (av_new_packet(pkt, size+2) < 0)
+wsaud_read_packet in westwood_aud.c (libavformat) line 154 :         if ((ret = av_new_packet(pkt, chunk_size + 4)))
+wv_read_packet in wvdec.c (libavformat) line 271 :     if (av_new_packet(pkt, wc->header.blocksize + WV_HEADER_SIZE) < 0)
+xcbgrab_frame in xcbgrab.c (libavdevice) line 160 :     ret = av_new_packet(pkt, length);
+yop_read_packet in yop.c (libavformat) line 146 :     ret = av_new_packet(&yop->video_packet,
