@@ -1,0 +1,11 @@
+https://blog.csdn.net/leixiaohua1020/article/details/42658139  系列文章说明
+协议层 、封装层、编码层、像素层
+
+视频、音频解码
+视频、音频编码
+分离音视频（demux），封装音视频（mux），转换封装格式（remux）
+转换像素格式，视频添加滤镜效果
+音视频合成同步
+FFmpeg读取设备中的媒体数据
+FFmpeg发送流媒体数据
+ffmpeg手机端

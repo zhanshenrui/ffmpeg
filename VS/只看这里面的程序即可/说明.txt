@@ -1,0 +1,3 @@
+2.1
+simplest_ffmpeg_player_su.cpp  是SDL update版本，用了线程，标准40ms延时
+simplest_ffmpeg_decoder_pure.cpp它仅仅使用了libavcodec（而没有使用libavformat），从源代码级理解解码
