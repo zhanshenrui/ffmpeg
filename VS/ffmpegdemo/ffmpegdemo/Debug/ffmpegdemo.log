@@ -1,9 +1,35 @@
-﻿生成启动时间为 2018/4/3 23:59:28。
-     1>项目“H:\git\ffmpeg\VS\ffmpegdemo\ffmpegdemo\ffmpegdemo.vcxproj”在节点 2 上(clean 个目标)。
-     1>_PrepareForClean:
-         正在删除文件“Debug\ffmpegdemo.lastbuildstate”。
-     1>已完成生成项目“H:\git\ffmpeg\VS\ffmpegdemo\ffmpegdemo\ffmpegdemo.vcxproj”(clean 个目标)的操作。
+﻿生成启动时间为 2018/4/8 14:21:28。
+     1>项目“E:\git\ffmpeg\VS\ffmpegdemo\ffmpegdemo\ffmpegdemo.vcxproj”在节点 2 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“Debug\ffmpegdemo.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\ffmpegdemo.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\ffmpegdemo.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ffmpegdemo.cpp
+         ffmpegdemo.cpp
+     1>e:\git\ffmpeg\vs\ffmpegdemo\ffmpegdemo\ffmpegdemo.cpp(27): warning C4018: “>”: 有符号/无符号不匹配
+     1>e:\git\ffmpeg\vs\ffmpegdemo\ffmpegdemo\ffmpegdemo.cpp(65): warning C4018: “<”: 有符号/无符号不匹配
+     1>e:\git\ffmpeg\vs\ffmpegdemo\ffmpegdemo\ffmpegdemo.cpp(91): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\ffmpegdemo.exe.embed.manifest.res" Debug\ffmpegdemo_manifest.rc 
+       Link:
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\git\ffmpeg\VS\ffmpegdemo\Debug\ffmpegdemo.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib avcodec.lib avformat.lib avutil.lib avdevice.lib avfilter.lib postproc.lib swresample.lib swscale.lib SDL2.lib SDL2main.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\ffmpegdemo.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\git\ffmpeg\VS\ffmpegdemo\Debug\ffmpegdemo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\git\ffmpeg\VS\ffmpegdemo\Debug\ffmpegdemo.lib" /MACHINE:X86 Debug\ffmpegdemo.exe.embed.manifest.res
+         Debug\ffmpegdemo.obj
+         Debug\stdafx.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\ffmpegdemo.exe.embed.manifest" /manifest Debug\ffmpegdemo.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\ffmpegdemo.exe.embed.manifest.res" Debug\ffmpegdemo_manifest.rc 
+       LinkEmbedManifest:
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\git\ffmpeg\VS\ffmpegdemo\Debug\ffmpegdemo.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib avcodec.lib avformat.lib avutil.lib avdevice.lib avfilter.lib postproc.lib swresample.lib swscale.lib SDL2.lib SDL2main.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\ffmpegdemo.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\git\ffmpeg\VS\ffmpegdemo\Debug\ffmpegdemo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\git\ffmpeg\VS\ffmpegdemo\Debug\ffmpegdemo.lib" /MACHINE:X86 Debug\ffmpegdemo.exe.embed.manifest.res
+         Debug\ffmpegdemo.obj
+         Debug\stdafx.obj
+         ffmpegdemo.vcxproj -> E:\git\ffmpeg\VS\ffmpegdemo\Debug\ffmpegdemo.exe
+       FinalizeBuildStatus:
+         正在删除文件“Debug\ffmpegdemo.unsuccessfulbuild”。
+         正在对“Debug\ffmpegdemo.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“E:\git\ffmpeg\VS\ffmpegdemo\ffmpegdemo\ffmpegdemo.vcxproj”(build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:00.80
+已用时间 00:00:06.13

@@ -92,12 +92,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	#endif
 	pAVPacket=(AVPacket*)av_malloc(sizeof(AVPacket));
 	//av_init_packet(packet);
-	uint64_t out_channel_layout=AV_CH_LAYOUT_STEREO;
-	int out_nb_samples=pAVCodecCtx->frame_size;
-	AVSampleFormat out_sample_fmt=AV_SAMPLE_FMT_S16;
-	int out_sample_rate=44100;
-	int out_channels=av_get_channel_layout_nb_channels(out_channel_layout);
-	int out_buffer_size=av_samples_get_buffer_size(NULL,out_channels,out_nb_samples,out_sample_fmt,1);
+	uint64_t out_channel_layout=AV_CH_LAYOUT_STEREO;//=3，声道布局，可从pAVCodecCtx->channel_layout读取
+	int out_nb_samples=pAVCodecCtx->frame_size;//=0x480，声音帧大小，可从pAVCodecCtx->frame_size读取
+	AVSampleFormat out_sample_fmt=AV_SAMPLE_FMT_S16;//有符号数16位，可从pAVCodecCtx->sample_fmt读取
+	int out_sample_rate=44100;//采样率，xiaoqingge.mp3是44100。可从pAVCodecCtx->sample_rate读取
+	int out_channels=av_get_channel_layout_nb_channels(out_channel_layout);//=2，声道数目，可从pAVCodecCtx->channels读取
+	int out_buffer_size=av_samples_get_buffer_size(NULL,out_channels,out_nb_samples,out_sample_fmt,1);//=0x1200
 	outbuffer=(uint8_t*)av_malloc(MAX_AUDIO_FRAME_SIZE*2);
 	pAVFrame=av_frame_alloc();
 	#if USE_SDL
@@ -106,12 +106,12 @@ int _tmain(int argc, _TCHAR* argv[])
 		printf( "Could not initialize SDL - %s\n", SDL_GetError()); 
 		goto end;
 	}
-	wanted_spec.freq = out_sample_rate;
+	wanted_spec.freq = out_sample_rate;//采样率
 	wanted_spec.format = AUDIO_S16SYS; 
-	wanted_spec.channels = out_channels; 
+	wanted_spec.channels = out_channels; //声道数目
 	wanted_spec.silence = 0; 
 	wanted_spec.samples = out_nb_samples; 
-	wanted_spec.callback = fill_audio;
+	wanted_spec.callback = fill_audio;//SDL播放音频需要实现回调函数
 	wanted_spec.userdata = pAVCodecCtx;
 	if (SDL_OpenAudio(&wanted_spec, NULL)<0){ 
 		printf("can't open audio.\n"); 
