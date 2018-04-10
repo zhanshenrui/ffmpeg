@@ -1943,6 +1943,11 @@ int avformat_alloc_output_context2(AVFormatContext **ctx, AVOutputFormat *oforma
 /**
  * Find AVInputFormat based on the short name of the input format.
  */
+ /*
+查找名为short_name的AVInputFormat
+short_name：in
+
+*/
 AVInputFormat *av_find_input_format(const char *short_name);
 
 /**
