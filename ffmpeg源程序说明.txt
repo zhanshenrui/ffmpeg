@@ -1,0 +1,48 @@
+AVDictionary是一个字典，字典就是键值对，一个关键字key对应一个值value.用字典可以很方便地传递参数。
+一个键值对就称为一个条目，其常用函数如下：
+av_dict_set(&d, "name", "jhuster", 0);  为字典d添加键值对name:jhuster,后面那个0暂时不知道啥意思
+
+输入设备如摄像头，文件，流都可以用avformat_open_input来打开
+
+
+
+容器：特定格式的多媒体文件
+媒体流（Stream）：指时间轴上的一段连续数据，如一段声音数据，一段视频数据或一段字幕数据，可以是压缩的，
+	也可以是非压缩的，压缩的数据需要关联特定的编解码器。
+数据帧／数据包（Frame/Packet）：通常，一个媒体流由大量的数据帧组成，对于压缩数据，帧对应着编解码器的
+	最小处理单元。通常，分属于不同媒体流的数据帧交错复用于容器之中。
+编解码器：编解码器以帧为单位实现压缩数据和原始数据之间的相互转换。
+AVFormatContext对应容器
+AVStream对应媒体流
+AVFrame，AVPacket对应数据帧、数据包
+AVCodecContext、AVCodec对应编解码器
+
+AVFormatContext
+	输入格式，输出格式，ByteIOContext，流的总数目，流数组，文件名字，时间戳，开始时间，总时间，码率，
+	流，
+
+AVStream
+	通用参数：流的index，流ID，编码器上下文，时基，开始时间，流的总时间，流内的帧数目，帧率，编码器上下文
+
+AVPacket
+	pts显示时间戳，dts解码时间戳，包所属流的index，包的总时间，包在流里的位置，包数据data指针，包长度，关键帧标志flags
+
+AVCodecContext
+	通用参数：时基，帧大小，帧数目，编码器名字，编码器ID
+	视频参数：长，宽，
+	音频参数：采样率，通道数，采样制式
+
+
+avformat_open_input和avformat_find_stream_info的过程中根据文件的头信息及媒体流内的头部信息完成初始化
+流中媒体数据的pts和dts都将以时基为粒度。通常，使用av_rescale/av_rescale_q可以实现不同时间基准的转换
+
+时间信息用于实现多媒体同步：
+	流内同步，按时顺序播放
+	流间同步，音视频同步
+对于声音来说 ，pts，dts是相同的，但对于某些视频编码格式，由于采用了双向预测技术，会造成DTS和PTS的不一致。
+
+int avformat_open_input(AVFormatContext **ic_ptr, const char *filename, AVInputFormat *fmt, AVDictionary **options);
+打开一个文件或打开URL或初始化基于字节流的底层输入模块
+解析多媒体文件或多媒体流的头信息，创建AVFormatContext结构并填充其中的关键字段，依次为各个原始流建立AVStream结构。
+
+ff_rtmp_protocol
