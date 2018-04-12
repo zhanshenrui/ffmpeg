@@ -1,0 +1,237 @@
+AVDictionary是一个字典，字典就是键值对，一个关键字key对应一个值value.用字典可以很方便地传递参数。
+一个键值对就称为一个条目，其常用函数如下：
+av_dict_set(&d, "name", "jhuster", 0);  为字典d添加键值对name:jhuster,后面那个0暂时不知道啥意思
+
+输入设备如摄像头，文件，流都可以用avformat_open_input来打开
+
+
+
+容器：特定格式的多媒体文件
+媒体流（Stream）：指时间轴上的一段连续数据，如一段声音数据，一段视频数据或一段字幕数据，可以是压缩的，
+	也可以是非压缩的，压缩的数据需要关联特定的编解码器。
+数据帧／数据包（Frame/Packet）：通常，一个媒体流由大量的数据帧组成，对于压缩数据，帧对应着编解码器的
+	最小处理单元。通常，分属于不同媒体流的数据帧交错复用于容器之中。
+编解码器：编解码器以帧为单位实现压缩数据和原始数据之间的相互转换。
+AVFormatContext对应容器
+AVStream对应媒体流
+AVFrame，AVPacket对应数据帧、数据包。AVFrame，是原始数据的结构体，也就是解码后或编码前的数据的载体。
+	AVPacket，是压缩数据的结构体，也就是解码前或编码后的数据的载体。
+AVCodecContext、AVCodec对应编解码器
+
+AVFormatContext
+	输入格式，输出格式，ByteIOContext/AVIOContext *pb;，流的总数目，流数组，流，文件名字，时间戳，开始时间，总时间，码率，
+	
+
+AVStream
+	流的index，流ID，编码器上下文，时基，流的开始时间，流的总时间，流内的帧数目，帧率，编码器上下文
+
+AVPacket
+	pts显示时间戳，dts解码时间戳，包所属流的index，包的总时间，包在流里的位置，包数据data指针，包长度，关键帧标志flags
+
+AVCodecContext
+	通用参数：时基，帧大小，帧数目，编码器名字，编码器ID
+	视频参数：长，宽，色彩空间及格式
+	音频参数：采样率，通道数，采样制式
+
+avformat_open_input和avformat_find_stream_info的过程中根据文件的头信息及媒体流内的头部信息完成初始化
+流中媒体数据的pts和dts都将以时基为粒度。通常，使用av_rescale/av_rescale_q可以实现不同时间基准的转换
+
+时间信息用于实现多媒体同步：
+	流内同步，按时顺序播放
+	流间同步，音视频同步
+对于声音来说 ，pts，dts是相同的，但对于某些视频编码格式，由于采用了双向预测技术，会造成DTS和PTS的不一致。
+----------------------------------------------------------------------------------------------------------------------------------
+/*
+ 根据名字找到输入
+ const char *short_name:in
+AVInputFormat:return,out
+ */
+AVInputFormat *av_find_input_format(const char *short_name);
+
+/*
+打开一个文件或打开URL或初始化基于字节流的底层输入模块,解析多媒体文件或多媒体流的头信息，创建AVFormatContext结构并
+填充其中的关键字段，依次为各个原始流建立AVStream结构。
+这个函数通过解析多媒体文件或流的头信息及其他辅助数据，但并不完全，通常还需要avformat_find_stream_info来辅助获取其它信息
+AVFormatContext **ic_ptr:out,保存AVFormatContext的内容
+const char *filename:in,指定文件名
+AVInputFormat *fmt:in,用于显式指定输入文件的格式，如果设为空则自动判断其输入格式
+AVDictionary **options:in,一般用字典键值对的形式传递一些参数
+*/
+int avformat_open_input(AVFormatContext **ic_ptr, const char *filename, AVInputFormat *fmt, AVDictionary **options);
+
+/*
+主要用于获取必要的编解码器参数，设置到ic→streams[i]→codec中,获取各媒体流对应编解码器的时间基准
+AVFormatContext **ic_ptr:out,保存AVFormatContext的内容
+AVDictionary **options:in,一般用字典键值对的形式传递一些参数
+*/
+int avformat_find_stream_info(AVFormatContext *ic, AVDictionary **options);
+
+/*
+从多媒体文件或多媒体流中读取媒体数据，获取的数据由AVPacket结构pkt来存放。对于音频数据，如果是固定比特率，
+则pkt中装载着一个或多个音频帧；如果是可变比特率，则pkt中装载有一个音频帧。对于视频数据，pkt中装载有一个
+视频帧。需要注意的是：再次调用本函数之前，必须使用av_free_packet释放pkt所占用的资源。通过pkt→stream_index
+可以查到获取的媒体数据的类型，从而将数据送交相应的解码器进行后续处理
+AVFormatContext *s:in,输入文件的AVFormatContext
+AVPacket *pkt:out,用来保存媒体数据
+*/
+int av_read_frame(AVFormatContext *s, AVPacket *pkt);
+
+/*
+根据给定的codec id或解码器名称从系统中搜寻并返回一个AVCodec结构的指针
+enum CodecID id:in
+return:找到的解码器
+*/
+AVCodec *avcodec_find_decoder(enum CodecID id);
+/*
+根据输入的AVCodec指针初始化AVCodecContext结构。在调用该函数之前，需要首先调用avcodec_alloc_context分配
+一个AVCodecContext结构，或调用avformat_open_input获取媒体文件中对应媒体流的AVCodecContext结构；此外还
+需要通过avcodec_find_decoder获取AVCodec结构。还将初始化对应的解码器
+AVCodecContext *avctx:out,根据codec初始化解码器的内容保存在这个结构体里
+AVCodec *codec:in
+*/
+int avcodec_open2(AVCodecContext *avctx, AVCodec *codec);
+
+/*
+解码一个视频帧。got_picture_ptr指示是否有解码数据输出,注意这里是avcodec_decode_video2，后面有个数字2
+这里是解码，由压缩数据变为原始数据，压缩数据用AVPacket，原始灵气用AVFrame
+数据的结构如下：
+#define FF_COMMON_FRAME \
+......
+    uint8_t *data[4];\
+    int linesize[4];\
+    int key_frame;\
+    int pict_type;\
+    int64_t pts;\        
+    int reference;\   
+......
+数据的结构一般是由*data[4]指针数组指向像素分量，如R,G,B，linesize[4]表示这些分量的大小，key_frame标识
+该图像是否是关键帧；pict_type表示该图像的编码类型：I(1)/P(2)/B(3)……；pts是以time_base为单位的时间标签，
+对于部分解码器如H.261、H.263和MPEG4，可以从头信息中获取；reference表示该图像是否被用作参考。
+AVCodecContext *avctx:in,被解码的文件的用到的编解码器上下文件
+AVFrame *picture:out,这里是解码，解码后的数据是输出，是原始数据，用AVFrame
+int *got_picture_ptr:out,是否解码成功的标志
+AVPacket *avpkt:in,解码前的数据是输入，是压缩数据，用AVPacket
+*/
+int avcodec_decode_video2(AVCodecContext *avctx, AVFrame *picture, int *got_picture_ptr, AVPacket *avpkt);
+
+/*
+解码一个音频帧，注意这里音频用的是audio4，视频用的是video2
+AVCodecContext *avctx:in,被解码的文件的用到的编解码器上下文件
+AVFrame *picture:out,这里是解码，解码后的数据是输出，是原始数据，用AVFrame
+int *got_picture_ptr:out,是否解码成功的标志
+AVPacket *avpkt:in,解码前的数据是输入，是压缩数据，用AVPacket
+*/
+int avcodec_decode_audio4(AVCodecContext *avctx, AVFrame *frame, int *got_frame_ptr, AVPacket *avpkt);
+
+/*
+负责分配一个用于输出目的的AVFormatContext，输出格式由oformat、format_name和filename决定，oformat优先级最高，
+如果oformat为空则依据format_name，如果format_name为空则依据filename。
+AVFormatContext **ctx:out
+AVOutputFormat *oformat:in
+const char *format_name:in
+const char *filename:in
+*/
+int avformat_alloc_output_context2(AVFormatContext **ctx, AVOutputFormat *oformat,const char *format_name, const char *filename);
+
+/*
+根据AVDictionary **options产生一个文件头并写入到输出目标中
+AVFormatContext *s:out
+AVDictionary **options:in
+*/
+int avformat_write_header(AVFormatContext *s, AVDictionary **options);
+
+/*
+将AVPacket写入到AVFormatContext中，负责输出一个媒体包
+AVFormatContext *s:out
+AVPacket *pkt:in
+*/
+int av_write_frame(AVFormatContext *s, AVPacket *pkt);
+
+/*
+为AVFormatContext创建用AVCodec编码的一个流
+AVFormatContext *s:in,创建的流属于这个上下文
+const AVCodec *c:in,创建的流用这个编码器编码
+AVStream*:out,被创建的流
+*/
+AVStream *avformat_new_stream(AVFormatContext *s, const AVCodec *c);
+
+/*
+根据文件名初始化分配一个输入输出IO上下文AVIOContext
+AVIOContext **s:out,生成的输入输出IO上下文
+const char *filename:in,文件名
+int flags:in,生成的上下文的权限，如读，写
+*/
+int avio_open(AVIOContext **s, const char *filename, int flags)
+
+/*
+打印信息
+AVFormatContext *ic:in,被打印的上下文
+int index:in,被打印的上下文里的那一条流
+const char *url:in,被打印的上下文里的那一条流里的那个文件
+int is_output:in,被打印的上下文里的那一条流里的那个文件的输出
+*/
+void av_dump_format(AVFormatContext *ic,int index,const char *url,int is_output);
+
+void *av_malloc(size_t size)分配packet用av_malloc
+AVFrame *av_frame_alloc(void)分配AVFrame用av_frame_alloc
+
+/*
+分配初始化一个图像处理上下文
+int srcW, int srcH, enum AVPixelFormat srcFormat:in,源的宽，高，色彩空间格式
+int dstW, int dstH, enum AVPixelFormat dstFormat:in,目的的宽，高，色彩空间格式
+int flags:in,转换过程中用什么算法，如SWS_FAST_BILINEAR表示采用快速转换算法
+SwsFilter *srcFilter,SwsFilter *dstFilter, const double *param:暂时不知，设为NULL
+struct SwsContext *:return,out,返回一个图像处理上下文指针SwsContext *
+*/
+struct SwsContext *sws_getContext(int srcW, int srcH, enum AVPixelFormat srcFormat,
+                                  int dstW, int dstH, enum AVPixelFormat dstFormat,
+                                  int flags, SwsFilter *srcFilter,SwsFilter *dstFilter, const double *param);
+					
+/*
+根据图片的格式，长，宽计算一个图片占多少字节
+enum AVPixelFormat pix_fmt, int width, int height:in,被计算图片的格式，长，宽
+int:return,out,返回这个图片所占字节
+*/					
+int avpicture_get_size(enum AVPixelFormat pix_fmt, int width, int height);
+
+/*
+为AVFrame里的像素数据关联一段内存
+AVPicture *picture:in,被关联的指针1
+const uint8_t *ptr:in,被关联的指针2
+enum AVPixelFormat pix_fmt,int width, int height:in,被关联内存要通过这三个参数计算
+查AVFrame结构体可知，这个结构体的前两个成员就是uint8_t *data[AV_NUM_DATA_POINTERS]，int linesize[AV_NUM_DATA_POINTERS]，这
+两个成员就是图像的具体数据和数据的大小。如普通RGB图片，*data[AV_NUM_DATA_POINTERS]这个指针数组的成员分别指向R数据，G数据，
+B数据。同样linesize[AV_NUM_DATA_POINTERS]数组里存放的就是R数据，G数据，B数据的大小。AVFrame是用av_frame_alloc()分配内存的，
+但分配的这个内存空间并不包含图像像素数据的内存空间，所以需要用av_malloc()额外分配一个buffer,然后用avpicture_fill()函数将
+这个buffer与AVPicture *picture关联起来。
+
+用法：
+AVFrame *pFrameYUV = av_frame_alloc();
+uint8_t *out_buffer = (uint8_t *)av_malloc(avpicture_get_size(PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height));
+avpicture_fill((AVPicture *)pFrameYUV, out_buffer, PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
+*/
+int avpicture_fill(AVPicture *picture, const uint8_t *ptr,enum AVPixelFormat pix_fmt, int width, int height);
+ff_rtmp_protocol
+----------------------------------------------------------------------------------------------------------------------------------
+流程：
+	1.先注册av_register_all();avdevice_register_all();avformat_network_init();
+	2.打开媒体
+		avformat_alloc_context();分配AVFormatContext
+		av_find_input_format();找到输入AVInputFormat
+		av_dict_set();用字典键值对的方式传递参数
+		avformat_open_input();打开AVFormatContext并初始化
+		avformat_find_stream_info();
+	3.解码器
+		avcodec_find_decoder();查找解码器
+		avcodec_open2();初始化编解码器
+	输出媒体
+		avformat_alloc_output_context2();分配AVFormatContext
+	编码器
+		avcodec_find_encoder();查找编码器
+		avcodec_alloc_context3();根据编码器分配一个编码器上下文
+		填充编码器上下文参数
+		avcodec_open2();初始化编解码器
+		avformat_new_stream();创建流
+		填充流参数
+	数据包
+		av_malloc();分配一个AVPacket*
