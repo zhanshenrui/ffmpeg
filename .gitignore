@@ -10,4 +10,9 @@ myexample/*/*/*.pro
 myexample/*/*/*.user
 myexample/*/*/说明*
 si/
-
+*.sln
+*.sdf
+*.suo
+*.v12*
+ipch/
+Debug/

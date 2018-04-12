@@ -1,0 +1,8 @@
+先按照这篇博客https://blog.csdn.net/caoshangpa/article/details/52944070安装好AMS，然后启动AMS administrator,AMS服务，然后用浏览器打开
+D:\Program Files\Adobe\Adobe Media Server 5\samples\videoPlayer目录下的videoplayer.html，然后在下面的STREAM URL栏里输入rtmp://localhost/live/livestream，
+然后运行ffmpeg_camera_streamer-master程序，这时就不会在
+if (avio_open(&ofmt_ctx->pb, out_path, AVIO_FLAG_READ_WRITE) < 0){
+	printf("Failed to open output file! (输出文件打开失败！)\n");
+	 system("pause");return -1;
+}
+处提示输出文件打开失败！可以正常启动摄像头推流直播。
