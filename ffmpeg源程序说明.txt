@@ -135,7 +135,7 @@ int avformat_alloc_output_context2(AVFormatContext **ctx, AVOutputFormat *oforma
 
 /*
 根据AVDictionary **options产生一个文件头并写入到输出目标中
-AVFormatContext *s:out
+AVFormatContext *s:in/out,会根据AVFormatContext里编码器，输出格式，流参数产生文件头并写入到AVFormatContext里
 AVDictionary **options:in
 */
 int avformat_write_header(AVFormatContext *s, AVDictionary **options);
@@ -211,11 +211,28 @@ uint8_t *out_buffer = (uint8_t *)av_malloc(avpicture_get_size(PIX_FMT_YUV420P, p
 avpicture_fill((AVPicture *)pFrameYUV, out_buffer, PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
 */
 int avpicture_fill(AVPicture *picture, const uint8_t *ptr,enum AVPixelFormat pix_fmt, int width, int height);
+
+/*
+将编码数据AVPacket *pkt写入到输出媒体文件里AVFormatContext *s，注意这个函数调用后会把AVPacket *pkt清掉，所以调试时
+想看AVPacket *pkt里的变量要在这个函数调用前查看，设断点也要设在这个函数前，否则看到的是错误的值。
+AVFormatContext *s:out
+AVPacket *pkt:in
+*/
+int av_write_frame(AVFormatContext *s, AVPacket *pkt);
 ff_rtmp_protocol
 ----------------------------------------------------------------------------------------------------------------------------------
+//摄像头虽然对应一个AVIOContext，但一般要将其当作一个AVFormatContext来处理，即程序中都是以AVFormatContext为单位来处理的。
+//编码数据AVPacket
+//解码数据AVFrame
+/*
+对于采集设像头并保存(用协议发送数据)主要流程为：摄像头(摄像头的数据是被摄像头编码好了的，是编码数据AVPacket)-->解码变成原始数据AVFrame-->
+sws_scale图形处理(图像处理并没有编码，所以数据格式未变，原来是原始数据AVFrame，处理后还是原始数据AVFrame)-->编码变成编码数据AVPacket-->
+将编码数据AVPacket写入到输出媒体文件AVFormatContext的流中
+*/
+//sws_scale图像处理后数据属性不变，原来是原始数据AVFrame，处理后还是原始数据AVFrame
 流程：
 	1.先注册av_register_all();avdevice_register_all();avformat_network_init();
-	2.打开媒体
+	2.打开输入媒体
 		avformat_alloc_context();分配AVFormatContext
 		av_find_input_format();找到输入AVInputFormat
 		av_dict_set();用字典键值对的方式传递参数
@@ -233,5 +250,45 @@ ff_rtmp_protocol
 		avcodec_open2();初始化编解码器
 		avformat_new_stream();创建流
 		填充流参数
+	输入设备
+		avio_open();填充AVFormatContext里的AVIOContext，以便打开输入设备如摄像头话筒等
+		avformat_write_header();对输出目标写文件头
 	数据包
+		sws_getContext();分配初始化一个图像处理上下文
 		av_malloc();分配一个AVPacket*
+		av_frame_alloc();这里分配了一个AVFrame,但其像素数据空间并没有分配地址，后面需要再分配一个uint8*以便填充像素数据
+		av_malloc();这里分配一个uint8*,而不是分配AVPacket*
+		avpicture_fill();将AVFrame与uint8*关联起来，这样AVFrame就有了像素数据空间了
+//---------以上都是初始化，对解码而言：输入媒体，解码器		对编码而言：输出媒体，编码器，IO输入设备(被包含在输入媒体中)或是其它原始数据AVFrame
+	数据处理
+		av_read_frame();从输入媒体中读入编码数据AVPacket
+		avcodec_decode_video2();解码数据变成原始数据AVFrame
+		sws_scale();原始数据AVFrame图像处理后还是原始数据AVFrame
+		avcodec_encode_video2();对原始数据AVFrame编码成编码数据AVPacket
+		对编码数据AVPacket添加额外信息，如时间戳，流索引号等
+		av_interleaved_write_frame();将编码数据AVPacket写到输出目标媒体文件
+//------------以上是数据处理
+	结束清理
+		av_free_packet();对应av_malloc申请的AVPacket
+		av_frame_free();对应av_frame_alloc申请的AVFrame
+		av_write_trailer();
+		avcodec_close();对应avcodec_open2打开的AVCodecContext
+		av_free();对应av_malloc申请的uint8
+		avio_close();对应avio_open打开的AVIOContext
+		avformat_free_context();对应avformat_alloc_output_context2申请的AVFormatContext，还有其它方法申请的AVFormatContext
+		CloseHandle();关闭线程，事件等
+//------------以上是结束清理工作
+----------------------------------------------------------------------------------------------------------------------------------
+时间基有三种单位：
+1.AVCodecContext中的AVRational根据帧率来设定，如25帧，那么num = 1，den=25---------由帧率决定,即一帧时间是1/25秒
+2.AVStream中的time_base一般根据其采样频率设定，如（1，90000）-----------由采样率决定，一般为90k=90000
+3.AV_TIME_BASE是以微秒为单位，1000000
+即AVCodecContext->time_base=1/25
+即AVStream->time_base=1/90000
+AVFrame->pkt_pts,AVFrame->pkt_dts拷贝自AVPacket，其单位是AVStream->time_base=1/90000，AVFrame->pts是输出给显示设备用的，用的是帧率，所以其单位是AVCodecContext->time_base=1/25
+InputStream->pts，InputStream->dts是以AV_TIME_BASE微秒为单位
+
+
+e2eSoft VCam
+
+rtmp://localhost/live/livestream

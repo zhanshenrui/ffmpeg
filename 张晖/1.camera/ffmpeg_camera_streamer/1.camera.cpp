@@ -143,10 +143,10 @@ int main(int argc, char* argv[])
 	//pCodecCtx->me_range = 16;
 	//pCodecCtx->max_qdiff = 4;
 	//pCodecCtx->qcompress = 0.6;
-	pCodecCtx->qmin = 10;
+	pCodecCtx->qmin = 10;//可使用的量化值，默认为10，我们也要默认的
 	pCodecCtx->qmax = 51;
 	//Optional Param
-	pCodecCtx->max_b_frames = 3;
+	pCodecCtx->max_b_frames = 3;//最大B帧数，即两个P帧之间最多3个B帧
 	// Set H264 preset and tune
 	AVDictionary *param = 0;
 	av_dict_set(&param, "preset", "fast", 0);
@@ -209,7 +209,7 @@ int main(int argc, char* argv[])
 	
 	//start decode and encode
 	int64_t start_time=av_gettime();
-	//从输入媒体上下文中读取编码数据AVPacket
+	//从输入媒体上下文中读取编码数据AVPacket,摄像头的数据是已经被摄像头编码好的数据，用AVPacket
 	while (av_read_frame(ifmt_ctx, dec_pkt) >= 0){	
 		if (exit_thread)
 			break;
@@ -244,26 +244,62 @@ int main(int argc, char* argv[])
 				enc_pkt.stream_index = video_st->index;
 
 				//Write PTS
-				AVRational time_base = ofmt_ctx->streams[videoindex]->time_base;//{ 1, 1000 };
-				AVRational r_framerate1 = ifmt_ctx->streams[videoindex]->r_frame_rate;// { 50, 2 };
-				AVRational time_base_q = { 1, AV_TIME_BASE };
+				AVRational time_base = ofmt_ctx->streams[videoindex]->time_base;//调试看数据为{ 1, 1000 };
+				AVRational r_framerate1 = ifmt_ctx->streams[videoindex]->r_frame_rate;// 调试看数据为{ 10000000, 400000 };/////////////
+				AVRational time_base_q = { 1, AV_TIME_BASE };//宏定义为{1,1000000}////////////////////
 				//Duration between 2 frames (us)
-				int64_t calc_duration = (double)(AV_TIME_BASE)*(1 / av_q2d(r_framerate1));	//内部时间戳
+				//av_q2d()函数将结构体变为分数,time_base={ 1, 1000 };time_base_q={1,1000000}
+				//y=av_rescale_q(x,bq,cq)====>y=x*bq/cq,bq是结构体要转为分数
+				int64_t calc_duration = (double)(AV_TIME_BASE)*(1 / av_q2d(r_framerate1));	//=40000,内部时间戳  400000//////////////
 				//Parameters
 				//enc_pkt.pts = (double)(framecnt*calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
 				enc_pkt.pts = av_rescale_q(framecnt*calc_duration, time_base_q, time_base);
+				//enc_pkt.pts=framecnt*40000*(1/1000000)/(1/1000)=79*40000*0.001=3160
 				enc_pkt.dts = enc_pkt.pts;
+				if(framecnt==79)
+				{
+					printf("\nhello,b=%d\n",enc_pkt.dts);
+					//system("pause");
+				}
 				enc_pkt.duration = av_rescale_q(calc_duration, time_base_q, time_base); //(double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
+				
 				enc_pkt.pos = -1;
 				
 				//Delay
+				if(framecnt==79)
+				{
+					printf("\nhello,c=%d\n",enc_pkt.dts);
+					//system("pause");
+				}
 				int64_t pts_time = av_rescale_q(enc_pkt.dts, time_base, time_base_q);
+				//pts_time=enc_pkt.dts*(1/1000)/(1/1000000)=3160000
+				if(framecnt==79)
+				{
+					printf("\nhello,a=%d\n",enc_pkt.dts);
+					//system("pause");
+				}
+				//printf("time_base=%d,r_framerate1");
 				int64_t now_time = av_gettime() - start_time;
 				if (pts_time > now_time)
 					av_usleep(pts_time - now_time);
-
+				if(framecnt==79)
+				{
+					printf("\nhello,d=%d\n",enc_pkt.dts);
+					//system("pause");
+				}
 				ret = av_interleaved_write_frame(ofmt_ctx, &enc_pkt);
+				if(framecnt==79)
+				{
+					printf("\nhello,e=%d\n",enc_pkt.dts);
+					//system("pause");
+				}
+				if(framecnt==79)
+				{
+					printf("\nhello,x=%d\n",enc_pkt.dts);
+					system("pause");
+				}
 				av_free_packet(&enc_pkt);
+				
 			}
 		}
 		else {
@@ -272,6 +308,7 @@ int main(int argc, char* argv[])
 		av_free_packet(dec_pkt);
 	}
 	//Flush Encoder
+	//输入的像素数据读取完成后调用此函数。用于输出编码器中剩余的AVPacket
 	ret = flush_encoder(ifmt_ctx,ofmt_ctx,0,framecnt);
 	if (ret < 0) {
 		printf("Flushing encoder failed\n");
@@ -291,7 +328,7 @@ int main(int argc, char* argv[])
 	CloseHandle(hThread);
 	return 0;
 }
-
+//ret = flush_encoder(ifmt_ctx,ofmt_ctx,0,framecnt);
 int flush_encoder(AVFormatContext *ifmt_ctx, AVFormatContext *ofmt_ctx, unsigned int stream_index, int framecnt){
 	int ret;
 	int got_frame;
