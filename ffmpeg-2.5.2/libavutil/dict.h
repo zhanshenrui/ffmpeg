@@ -125,6 +125,10 @@ int av_dict_count(const AVDictionary *m);
  *        Passing a NULL value will cause an existing entry to be deleted.
  * @return >= 0 on success otherwise an error code <0
  */
+ /*
+AVDictionary **pm:out,指向一个结构体指针
+
+*/
 int av_dict_set(AVDictionary **pm, const char *key, const char *value, int flags);
 
 /**

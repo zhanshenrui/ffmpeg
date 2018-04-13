@@ -16,3 +16,4 @@ si/
 *.v12*
 ipch/
 Debug/
+*sdf
