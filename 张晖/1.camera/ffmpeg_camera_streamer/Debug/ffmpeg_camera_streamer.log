@@ -1,0 +1,34 @@
+﻿生成启动时间为 2018/4/12 20:09:01。
+     1>项目“H:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\ffmpeg_camera_streamer.vcxproj”在节点 2 上(build 个目标)。
+       项目文件包含 ToolsVersion="12.0"。此工具集可能未知或缺失。在这种情况下，通过安装 MSBuild 的正确版本，或许可以解决此问题。否则，该 build 可能已因策略原因而被强制为某个特定 ToolsVersion。将该项目视为其已具有 ToolsVersion="4.0"。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=291333。
+     1>InitializeBuildStatus:
+         正在创建“Debug\ffmpeg_camera_streamer.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         e:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _CRT_SECURE_NO_DEPRECATE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt 1.camera.cpp
+         1.camera.cpp
+     1>h:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\1.camera.cpp(102): warning C4018: “<”: 有符号/无符号不匹配
+     1>h:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\1.camera.cpp(251): warning C4244: “初始化”: 从“double”转换到“int64_t”，可能丢失数据
+     1>h:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\1.camera.cpp(256): warning C4244: “=”: 从“int64_t”转换到“int”，可能丢失数据
+     1>h:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\1.camera.cpp(263): warning C4244: “参数”: 从“int64_t”转换到“unsigned int”，可能丢失数据
+     1>h:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\1.camera.cpp(322): warning C4244: “初始化”: 从“double”转换到“int64_t”，可能丢失数据
+     1>h:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\1.camera.cpp(326): warning C4244: “=”: 从“int64_t”转换到“int”，可能丢失数据
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\ffmpeg_camera_streamer.exe.embed.manifest.res" Debug\ffmpeg_camera_streamer_manifest.rc 
+       Link:
+         e:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"H:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\Debug\ffmpeg_camera_streamer.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib avcodec.lib avformat.lib avutil.lib avdevice.lib swscale.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\ffmpeg_camera_streamer.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"H:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\Debug\ffmpeg_camera_streamer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"H:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\Debug\ffmpeg_camera_streamer.lib" /MACHINE:X86 Debug\ffmpeg_camera_streamer.exe.embed.manifest.res
+         Debug\1.camera.obj /SAFESEH:NO 
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\ffmpeg_camera_streamer.exe.embed.manifest" /manifest Debug\ffmpeg_camera_streamer.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\ffmpeg_camera_streamer.exe.embed.manifest.res" Debug\ffmpeg_camera_streamer_manifest.rc 
+       LinkEmbedManifest:
+         e:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"H:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\Debug\ffmpeg_camera_streamer.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib avcodec.lib avformat.lib avutil.lib avdevice.lib swscale.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\ffmpeg_camera_streamer.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"H:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\Debug\ffmpeg_camera_streamer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"H:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\Debug\ffmpeg_camera_streamer.lib" /MACHINE:X86 Debug\ffmpeg_camera_streamer.exe.embed.manifest.res
+         Debug\1.camera.obj /SAFESEH:NO 
+         ffmpeg_camera_streamer.vcxproj -> H:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\Debug\ffmpeg_camera_streamer.exe
+       FinalizeBuildStatus:
+         正在删除文件“Debug\ffmpeg_camera_streamer.unsuccessfulbuild”。
+         正在对“Debug\ffmpeg_camera_streamer.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“H:\git\ffmpeg\张晖\1.camera\ffmpeg_camera_streamer\ffmpeg_camera_streamer.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:22.89
