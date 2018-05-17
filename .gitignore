@@ -17,3 +17,4 @@ si/
 ipch/
 Debug/
 *sdf
+*.si4project
